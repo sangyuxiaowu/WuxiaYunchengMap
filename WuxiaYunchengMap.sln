@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WuxiaYunchengMap", "WuxiaYunchengMap\WuxiaYunchengMap.csproj", "{104B3285-1AD7-4E7E-857F-1BD50CC73B61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{104B3285-1AD7-4E7E-857F-1BD50CC73B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{104B3285-1AD7-4E7E-857F-1BD50CC73B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{104B3285-1AD7-4E7E-857F-1BD50CC73B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{104B3285-1AD7-4E7E-857F-1BD50CC73B61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A7A549E-37F5-42E5-B708-DB351A34E63C}
+	EndGlobalSection
+EndGlobal
