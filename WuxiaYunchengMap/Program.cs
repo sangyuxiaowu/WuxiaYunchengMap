@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CommandLine;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 
@@ -6,9 +7,11 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        DrawMap();
-        DrawMap("points2.csv", "map-with-annotations2.png");
-        DrawMap("points3.csv", "map-with-annotations3.png");
+        Parser.Default.ParseArguments<Options>(args)
+                   .WithParsed<Options>(o =>
+                   {
+                       DrawMap(o.pointsFile, o.saveMap, o.PointFix_X, o.PointFix_Y, o.loadMap);
+                   });
     }
 
     /// <summary>
@@ -18,7 +21,7 @@ internal class Program
     /// <param name="saveMap">生成地图保存文件名</param>
     /// <param name="PointFix">地图坐标点修正值</param>
     /// <param name="loadMap">加载的原始地图</param>
-    private static void DrawMap(string pointsFile = "points1.csv", string saveMap = "map-with-annotations1.png", int PointFix = 2000, string loadMap = "map.png")
+    private static void DrawMap(string pointsFile, string saveMap, int PointFix_X, int PointFix_Y, string loadMap)
     {
         // 存储坐标点的列表
         List<MapPoint> points = new List<MapPoint>();
@@ -42,8 +45,8 @@ internal class Program
             points.Add(point);
         }
 
-        // 读取图像文件
-        Image image = Image.FromFile(loadMap);
+        // 读取图像文件，如果为指定为空，则创建一个可以将坐标点绘制到上面的新图像
+        Image image = loadMap == "" ? new Bitmap(4000, 4000) : Image.FromFile(loadMap);
 
         // 创建Graphics对象
         using (Graphics g = Graphics.FromImage(image))
@@ -57,9 +60,9 @@ internal class Program
             {
 
                 // 绘制坐标点
-                g.DrawEllipse(pen, point.X - PointFix, image.Height - (point.Y - PointFix), 10, 10);
+                g.DrawEllipse(pen, point.X - PointFix_X, image.Height - (point.Y - PointFix_Y), 10, 10);
                 // 绘制坐标点的注释
-                g.DrawString($"({point.X},{point.Y}){point.Annotation}", new Font("Arial", 8), brush, point.X + 15 - PointFix, image.Height - (point.Y - PointFix) - 8);
+                g.DrawString($"({point.X},{point.Y}){point.Annotation}", new Font("Arial", 8), brush, point.X + 15 - PointFix_X, image.Height - (point.Y - PointFix_Y) - 8);
             }
         }
 
@@ -80,4 +83,24 @@ class MapPoint
         this.Y = y;
         this.Annotation = annotation;
     }
+}
+
+
+public class Options
+{
+    [Option('p', "points", Required = true, HelpText = "坐标点文件.")]
+    public string pointsFile { get; set; }
+
+    [Option('s', "save", Required = false, Default = "output_map.png", HelpText = "生成的地图文件.")]
+    public string saveMap { get; set; }
+
+    [Option('x', "xfix", Required = false, Default = 0, HelpText = "地图坐标点修正值.")]
+    public int PointFix_X { get; set; }
+
+    [Option('y', "yfix", Required = false, Default = 0, HelpText = "地图坐标点修正值.")]
+    public int PointFix_Y { get; set; }
+
+    [Option('l', "load", Required = false, Default = "", HelpText = "加载的原始地图.")]
+    public string loadMap { get; set; }
+
 }
